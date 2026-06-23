@@ -1,0 +1,19 @@
+Analysis
+
+1. Linear Search checks products one by one until the required product is found.
+
+2. Binary Search divides the search space into two halves repeatedly.
+
+3. Linear Search has a best-case time complexity of O(1).
+
+4. Linear Search has an average and worst-case time complexity of O(n).
+
+5. Binary Search has a best-case time complexity of O(1).
+
+6. Binary Search has an average and worst-case time complexity of O(log n).
+
+7. Binary Search is faster than Linear Search for large datasets.
+
+8. Binary Search requires the products to be stored in sorted order.
+
+9. Therefore, Binary Search is more suitable for an e-commerce platform because it provides faster search results.

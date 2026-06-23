@@ -1,0 +1,19 @@
+ Analysis
+
+1. Bubble Sort compares adjacent orders and swaps them if needed.
+
+2. Bubble Sort has a best-case time complexity of O(n).
+
+3. Bubble Sort has an average and worst-case time complexity of O(n²).
+
+4. Quick Sort divides the orders into smaller parts using a pivot.
+
+5. Quick Sort has an average time complexity of O(n log n).
+
+6. Quick Sort can have a worst-case time complexity of O(n²).
+
+7. Quick Sort performs faster than Bubble Sort for large datasets.
+
+8. Quick Sort requires fewer comparisons and is more efficient.
+
+9. Therefore, Quick Sort is generally preferred for sorting customer orders.
