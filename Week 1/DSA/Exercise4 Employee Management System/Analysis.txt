@@ -1,0 +1,19 @@
+# Analysis
+
+1. Add Employee takes O(1) time because the employee is added at the next available position.
+
+2. Search Employee takes O(n) time because each employee may need to be checked.
+
+3. Traverse Employee takes O(n) time because all employee records are visited.
+
+4. Delete Employee takes O(n) time because elements must be shifted.
+
+5. Arrays store data in contiguous memory locations.
+
+6. Arrays provide fast access using indexes.
+
+7. Arrays have a fixed size and cannot grow dynamically.
+
+8. Arrays are suitable when the number of records is known in advance.
+
+9. Arrays are not ideal for frequent insertion and deletion operations.
