@@ -64,3 +64,41 @@ lab: the initial commit, the diverging `hello.xml` commits on `master` and
 `GitWork`, the merge-conflict resolution commit, and the `.gitignore`
 commit.
 
+## 5. Observe if the changes are reflected in the remote repository
+
+Two ways to confirm the push landed:
+
+**A. Command line** — compare local and remote refs:
+
+```
+git log --oneline --graph --decorate --all
+```
+
+After a successful push, `origin/master` will appear decorating the same
+commit as `master` (e.g. `(HEAD -> master, origin/master)`), confirming
+the remote pointer now matches local.
+
+**B. Web UI** — open the repository page on GitHub/GitLab and check:
+- The commit list/history matches `git log` locally (same messages, same
+  count).
+- The file browser shows the final state: `README.md`, `hello.xml`,
+  `.gitignore` — with `hello.xml.orig` absent (correctly excluded by
+  `.gitignore`).
+- The default branch shown is `master` with the latest commit
+  ("Ignore .orig backup files left by merge tools").
+
+## Cleanup checklist recap
+
+Before pushing, it's good practice to always run through:
+
+| Check | Command | What it catches |
+|---|---|---|
+| Working tree clean | `git status` | Uncommitted edits that would be left behind |
+| No stray branches | `git branch -a` | Feature branches that were merged but not deleted |
+| No stray untracked files | `git status` / `git clean -ndx` | Build artifacts, tool backup files (`.orig`, etc.) not yet in `.gitignore` |
+| Up to date with remote | `git pull` before `git push` | Avoids a rejected push / unnecessary merge conflict |
+
+`git clean -ndx` (dry run) lists untracked and ignored files that `git clean`
+would delete — useful to sanity-check before ever running the real
+`git clean -fdx`, which is destructive and was **not** run here since it
+would permanently delete untracked files (nothing in this repo warranted it).
