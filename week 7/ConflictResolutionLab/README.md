@@ -143,4 +143,76 @@ CONFLICT (add/add): Merge conflict in hello.xml
 Automatic merge failed; fix conflicts and then commit the result.
 ```
 
+## 12. Observe the git status and conflict markup
+
+```
+$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+	both added:      hello.xml
+
+$ cat hello.xml
+<?xml version="1.0"?>
+<hello>
+<<<<<<< HEAD
+  <message>Hello from master trunk</message>
+  <owner>master-user</owner>
+=======
+  <message>Hello from GitWork branch</message>
+  <author>branch-user</author>
+>>>>>>> GitWork
+</hello>
+```
+
+- `<<<<<<< HEAD ... =======` is **your current branch's** version (`master`).
+- `======= ... >>>>>>> GitWork` is the **incoming branch's** version.
+
+## 13. Resolve with a 3-way merge tool
+
+On a machine with P4Merge configured as `merge.tool`, this step would be:
+
+```
+git mergetool
+```
+
+P4Merge opens a 3-pane view — **base** (the common ancestor before either
+branch changed the file), **local/yours** (`master`), and **remote/theirs**
+(`GitWork`) — with a fourth pane for the merged result, letting you pick
+individual hunks from either side or hand-edit the combined output visually
+instead of editing raw conflict markers in a text editor. (P4Merge isn't
+installed here, so the conflict was resolved by directly editing the file
+and removing the markers — functionally the same outcome a mergetool
+session would produce.)
+
+Resolved content, combining both sides' intent:
+
+```xml
+<?xml version="1.0"?>
+<hello>
+  <message>Hello from master trunk and GitWork branch</message>
+  <owner>master-user</owner>
+  <author>branch-user</author>
+</hello>
+```
+
+## 14. Commit the resolved changes to master
+
+```
+$ git add hello.xml
+$ git status
+All conflicts fixed but you are still merging.
+	modified:   hello.xml
+
+$ git commit -m "Resolve merge conflict between master and GitWork in hello.xml"
+[master 5d809bd] Resolve merge conflict between master and GitWork in hello.xml
+```
+
+Because a merge commit was already started, `git commit` with no `-m`
+would also work and would pre-fill the editor with a default
+"Merge branch 'GitWork'..." message — an explicit `-m` was used here instead.
+
 
