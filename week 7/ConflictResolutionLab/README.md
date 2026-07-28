@@ -67,3 +67,80 @@ $ git checkout master
 Switched to branch 'master'
 ```
 
+## 6. Add hello.xml to master with different content
+
+```
+$ cat > hello.xml   # <hello><message>Hello from master trunk</message><owner>master-user</owner></hello>
+$ git status
+On branch master
+Untracked files:
+	hello.xml
+```
+
+Note `hello.xml` does not yet exist in `master`'s history — it only exists
+on `GitWork` so far — so this creates two independent versions of a
+same-named new file on each branch, the setup for an add/add conflict.
+
+## 7. Commit the change to master
+
+```
+$ git add hello.xml
+$ git commit -m "Add hello.xml on master with different content"
+[master 54885b4] Add hello.xml on master with different content
+```
+
+## 8. Observe the log
+
+```
+$ git log --oneline --graph --decorate --all
+* 54885b4 (HEAD -> master) Add hello.xml on master with different content
+| * f9d4424 (GitWork) Update hello.xml content on GitWork
+| * f75a66f Add initial hello.xml on GitWork
+|/
+* d8c08ca Initial commit on master
+```
+
+The two branches have clearly diverged, each with its own `hello.xml`.
+
+## 9. Check differences with git diff
+
+```
+$ git diff master GitWork -- hello.xml
+diff --git a/hello.xml b/hello.xml
+index ce02b56..894e5c5 100644
+--- a/hello.xml
++++ b/hello.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0"?>
+ <hello>
+-  <message>Hello from master trunk</message>
+-  <owner>master-user</owner>
++  <message>Hello from GitWork branch</message>
++  <author>branch-user</author>
+ </hello>
+```
+
+## 10. Visualize with P4Merge
+
+P4Merge is **not installed** on this machine, so this step is documented
+rather than run directly (see the branching/merging lab for the
+`git config diff.tool` / `difftool.p4merge.cmd` setup). Once configured:
+
+```
+git difftool master GitWork -- hello.xml
+```
+
+This opens P4Merge showing the master and branch versions of `hello.xml`
+side-by-side with the differing `<message>`/`<owner>`/`<author>` lines
+highlighted in color.
+
+## 11. Merge the branch into master
+
+```
+$ git merge GitWork -m "Merge branch 'GitWork' into master"
+Auto-merging hello.xml
+CONFLICT (add/add): Merge conflict in hello.xml
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+
